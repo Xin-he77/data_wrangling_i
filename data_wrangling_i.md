@@ -3,22 +3,23 @@ data\_wrangling\_i
 Xin He
 9/17/2019
 
-\#\#load in the litters dataset
+\#\#load in the litters
+dataset
 
 ``` r
-litters_data = read_csv(file = "./FAS_litters.csv")
+litters_data = read_csv(file = "./FAS_litters.csv",skip = 10, col_names = FALSE)
 ```
 
     ## Parsed with column specification:
     ## cols(
-    ##   Group = col_character(),
-    ##   `Litter Number` = col_character(),
-    ##   `GD0 weight` = col_double(),
-    ##   `GD18 weight` = col_double(),
-    ##   `GD of Birth` = col_double(),
-    ##   `Pups born alive` = col_double(),
-    ##   `Pups dead @ birth` = col_double(),
-    ##   `Pups survive` = col_double()
+    ##   X1 = col_character(),
+    ##   X2 = col_character(),
+    ##   X3 = col_double(),
+    ##   X4 = col_double(),
+    ##   X5 = col_double(),
+    ##   X6 = col_double(),
+    ##   X7 = col_double(),
+    ##   X8 = col_double()
     ## )
 
 ``` r
@@ -26,28 +27,26 @@ litters_data = janitor::clean_names(litters_data)
 names(litters_data)
 ```
 
-    ## [1] "group"           "litter_number"   "gd0_weight"      "gd18_weight"    
-    ## [5] "gd_of_birth"     "pups_born_alive" "pups_dead_birth" "pups_survive"
+    ## [1] "x1" "x2" "x3" "x4" "x5" "x6" "x7" "x8"
 
 ``` r
 litters_data
 ```
 
-    ## # A tibble: 49 x 8
-    ##    group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
-    ##    <chr> <chr>              <dbl>       <dbl>       <dbl>           <dbl>
-    ##  1 Con7  #85                 19.7        34.7          20               3
-    ##  2 Con7  #1/2/95/2           27          42            19               8
-    ##  3 Con7  #5/5/3/83/3-3       26          41.4          19               6
-    ##  4 Con7  #5/4/2/95/2         28.5        44.1          19               5
-    ##  5 Con7  #4/2/95/3-3         NA          NA            20               6
-    ##  6 Con7  #2/2/95/3-2         NA          NA            20               6
-    ##  7 Con7  #1/5/3/83/3-…       NA          NA            20               9
-    ##  8 Con8  #3/83/3-3           NA          NA            20               9
-    ##  9 Con8  #2/95/3             NA          NA            20               8
-    ## 10 Con8  #3/5/2/2/95         28.5        NA            20               8
-    ## # … with 39 more rows, and 2 more variables: pups_dead_birth <dbl>,
-    ## #   pups_survive <dbl>
+    ## # A tibble: 40 x 8
+    ##    x1    x2                 x3    x4    x5    x6    x7    x8
+    ##    <chr> <chr>           <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+    ##  1 Con8  #3/5/2/2/95      28.5  NA      20     8     0     8
+    ##  2 Con8  #5/4/3/83/3      28    NA      19     9     0     8
+    ##  3 Con8  #1/6/2/2/95-2    NA    NA      20     7     0     6
+    ##  4 Con8  #3/5/3/83/3-3-2  NA    NA      20     8     0     8
+    ##  5 Con8  #2/2/95/2        NA    NA      19     5     0     4
+    ##  6 Con8  #3/6/2/2/95-3    NA    NA      20     7     0     7
+    ##  7 Mod7  #59              17    33.4    19     8     0     5
+    ##  8 Mod7  #103             21.4  42.1    19     9     1     9
+    ##  9 Mod7  #1/82/3-2        NA    NA      19     6     0     6
+    ## 10 Mod7  #3/83/3-2        NA    NA      19     8     0     8
+    ## # … with 30 more rows
 
 \#\#load in the pups data
 
@@ -85,6 +84,40 @@ pups_data
     ## 10 #2/2/95/3-2       1       4      NA        8      10
     ## # … with 303 more rows
 
+\#\#Parsing columns
+
+``` r
+litters_data = read_csv(file = "./FAS_litters.csv",
+  col_types = cols(
+    Group = col_character(),
+    `Litter Number` = col_character(),
+    `GD0 weight` = col_double(),
+    `GD18 weight` = col_double(),
+    `GD of Birth` = col_integer(),
+    `Pups born alive` = col_integer(),
+    `Pups dead @ birth` = col_integer(),
+    `Pups survive` = col_integer()
+  )
+)
+```
+
+the use of’’ is because of the exist of space\!
+
+\#\#reading in an excel file…
+
+``` r
+mlb11_data = read_excel(path = "./mlb11.xlsx")
+```
+
+mlb11\_data = read\_excel(path = “./mlb11.xlsx”, sheet = , range =
+“A1:D7”)
+
+\#\#read in SAS
+
+``` r
+pulse_data = haven::read_sas("./public_pulse_data.sas7bdat")
+```
+
 ## R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax
@@ -111,7 +144,7 @@ summary(cars)
 
 You can also embed plots, for example:
 
-![](Untitled_files/figure-gfm/pressure-1.png)<!-- -->
+![](data_wrangling_i_files/figure-gfm/pressure-1.png)<!-- -->
 
 Note that the `echo = FALSE` parameter was added to the code chunk to
 prevent printing of the R code that generated the plot.
